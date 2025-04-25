@@ -77,36 +77,28 @@
 
         <section class="container-fluid mt-4 mb-4">
             <div class="row">
+              
                 <div class="col-1">
                     <figure>
-                        <img style="width: 50px;" src="img/govt-of-india.png" />
+                        <img style="width: 60px;" src="img/govt-of-india.png" />
                     </figure>
                 </div>
                 <div class="col-1">
                     <figure>
-                        <img style="width: 50px;" src="img/IITB Logo vector .png" />
+                        <img style="width: 60px;" src="img/IITB Logo vector .png" />
                     </figure>
                 </div>
                 <div class="col-1">
                     <figure>
-                        <img style="width: 100px;" src="img/CTARA_Logo_white.png" />
+                        <img style="width: 100px;" class="mt-3" src="img/CTARA_logo_black.png" />
                     </figure>
                 </div>
                 <div class="col-1">
                   <figure>
-                      <img style="width: 100px;" src="img/rutag.png" />
+                      <img style="width: 60px; margin-left: 1.5rem;" src="img/rutag.png" />
                   </figure>
               </div>
-                <div class="offset-5 col-3">
-                    <nav class="navbar navbar-light">
-                        <div class="container-fluid">
-                            <form class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                            </form>
-                        </div>
-                    </nav>
-                </div>
+                
             </div>
         </section><!-- all logo -->
 
@@ -147,11 +139,15 @@
         <section class="container-fluid mt-4 mb-4">
             <div class="row">
                 <div class="col-12">
-                    <h1>Dynamic HTML Loading from GitHub</h1>
-                    <div id="content-container">
-                        <p>Loading content...</p>
-                    </div>
-                  <div id="map"></div>
+                    <iframe 
+                    src="https://sahamoumit.github.io/live-map-host/index.html"
+                    width="100%" 
+                    height="600px" 
+                    style="border: none;"
+                    title="Live Map"
+                    loading="lazy">
+                </iframe>
+                
                 </div>
             </div>
         </section><!--Rutag Intro message-->
@@ -206,128 +202,6 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     
-<!--map-->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    // Initialize map
-    const map = L.map('map').setView([20.5937, 78.9629], 6); // Center on India
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-    }).addTo(map);
-    var wms_layer0 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/geonode/wms',{
-      layers: 'states_in_india',
-      format: 'image/png',
-      transparent: 'true',
-      
-    //   cql_filter: (`(district='Palghar')or (district='Nashik')`),
-    //   styles:'mumbai_roads_prabhagwise20oct23',
-      });
-    map.addLayer(wms_layer0);
-    // GeoJSON URL with Access Token
-    const geojsonUrl = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Arutag_26nov24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&access_token=bCsy2FL2xa3253ec1wGn65xPZtiIvE';
-
-    // Layers management
-    const layers = {};
-    
-    // Define styles mimicking SLD
-    function getFeatureStyle(properties) {
-        // Example: Style based on a property like "category"
-        if (properties === 'Mobile Sabjee Cooler') {
-            return { color: 'red', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Bamboo Polyhouse') {
-            return { color: 'blue', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Solar Hydro Distilor') {
-            return { color: 'yellow', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'www.marketmirchi.com –A Digital marketing Platform') {
-            return { color: 'green', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Multi-purpose Processor') {
-            return { color: 'orange', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Natural fiber based surface water tanks') {
-            return { color: 'magenta', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Integrated Curing and Storage for Onions') {
-            return { color: 'purple', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Rocking Chair for Parkinson') {
-            return { color: 'turquoise', weight: 4, fillOpacity: 0.7 };  
-        } else if (properties === 'Smart Stethoscope') {
-            return { color: 'teal', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Assistive Device for Ailing Cattle') {
-            return { color: 'pink', weight: 2, fillOpacity: 0.5 };
-        } else if (properties === 'Solar Food Cart') {
-            return { color: 'lightgreen', weight: 2, fillOpacity: 0.7 };
-        } else if (properties === 'Solar Charge Controller') {
-                return { color: 'navy', weight: 2, fillOpacity: 0.5 };
-        } else {
-            return { color: 'black', weight: 1, fillOpacity: 0 };
-        }
-    }
-    // Fetch GeoJSON
-    $.getJSON(geojsonUrl, function (data) {
-        const uniqueNames = new Set();
-
-        data.features.forEach(feature => {
-            uniqueNames.add(feature.properties.ruTAG_Name);
-        });
-
-        // Generate checkboxes
-        uniqueNames.forEach(name => {
-            if (name) { // Only create checkbox if name is not empty or null
-                $('#checkboxes').append(`
-                    <label>
-                        <input type="checkbox" class="layer-toggle" value="${name}" checked>
-                        ${name}
-                    </label><br>
-                `);
-            }
-        });
-
-        // Add GeoJSON layer
-        const geojsonLayer = L.geoJSON(data, {
-            style: function (feature) {
-                // Apply the style function
-                return getFeatureStyle(feature.properties.ruTAG_Name);
-            },
-            onEachFeature: function (feature, layer) {
-                const rutagName = feature.properties.ruTAG_Name;
-
-                // Store layers by rutag_name
-                if (!layers[rutagName]) layers[rutagName] = L.layerGroup();
-                layers[rutagName].addLayer(layer);
-
-                // Hover tooltip
-                layer.bindTooltip(feature.properties.rutag_name);
-
-                // Click popup
-                const otherFields = Object.entries(feature.properties)
-                .filter(([key]) => !['fid', 'id', 'ruTAG_Name', 'area','ruTAG_Sate',].includes(key)) // Exclude these keys                        .map(([key, value]) => `<b>${key}:</b> ${value}`)
-                .map(([key, value]) => {
-                // Rename specific keys
-                if (key === 'district') key = 'District';
-                if (key === 'state') key = 'State';
-                if (key === 'ruTAG_Fund') key = 'Funded By';
-                if (key === 'rutag_no_o') key = 'Technology Count';
-
-            return `<b>${key}:</b> ${value}`;
-        })
-                .join('<br>');
-                layer.bindPopup(`<b>Technology Name:</b> ${rutagName}<br>${otherFields}`);
-            }
-        });
-
-        // Add all layers to map initially
-        Object.values(layers).forEach(layerGroup => map.addLayer(layerGroup));
-    });
-
-    // Handle checkbox toggling
-    $(document).on('change', '.layer-toggle', function () {
-        const name = $(this).val();
-        if (this.checked) {
-            layers[name].addTo(map);
-        } else {
-            map.removeLayer(layers[name]);
-        }
-    });
-</script>
 </body>
 
 </html>
